@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct todo_frontendApp: App {
+    @AppStorage("todosData") var todosData: String = ""
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WelcomeScreenView()
         }
     }
 }
