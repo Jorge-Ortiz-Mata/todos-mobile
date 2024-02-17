@@ -81,7 +81,6 @@
 			children = (
 				CF2485C82B56F3A00047E0BC /* todo_frontendApp.swift */,
 				CF2485E42B56FAF00047E0BC /* models */,
-				CFDF54282B7ECAB6009391B7 /* services */,
 				CF2485D92B56F7DB0047E0BC /* views */,
 				CF2485CC2B56F3A10047E0BC /* Assets.xcassets */,
 				CF2485CE2B56F3A10047E0BC /* Preview Content */,
@@ -172,13 +171,6 @@
 				CF6173E32B5DB5C60012039A /* NewTodoFormView.swift */,
 			);
 			path = newTodos;
-			sourceTree = "<group>";
-		};
-		CFDF54282B7ECAB6009391B7 /* services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

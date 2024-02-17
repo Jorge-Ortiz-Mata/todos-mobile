@@ -9,7 +9,12 @@ import SwiftUI
 
 struct NewTodoScreen: View {
     var body: some View {
-        NewTodoFormView()
+        VStack {
+            Text("Create todo")
+                .font(.title)
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+            NewTodoFormView()
+        }
     }
 }
 

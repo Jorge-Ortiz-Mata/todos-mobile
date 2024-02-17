@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewTodoFormView: View {
+    @AppStorage("todosData") var todosData: String = ""
     @Environment(\.presentationMode) var presentationMode
     @State var todo: NewTodo = NewTodo(name: "", description: "")
     @State var nameError: String = ""
@@ -18,10 +19,9 @@ struct NewTodoFormView: View {
         VStack {
             if(responseOK) {
                 VStack {
-    
-                }.task{
-                    presentationMode.wrappedValue.dismiss()
-                    print("Thank you")
+                    Text("Tu nueva actividad ha sido creada.")
+                }.task {
+                    await getTodos()
                 }
             } else {
                 VStack {
@@ -103,6 +103,23 @@ struct NewTodoFormView: View {
 
                     } else if response.statusCode == 200 {
                         responseOK = true
+                    }
+                }
+            }.resume()
+        }
+    }
+    
+    private func getTodos() async {
+        if let apiURL = URL(string: "http://localhost:3000/api/todos") {
+            var request = URLRequest(url: apiURL)
+            request.httpMethod = "GET"
+            
+            request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let apiData = data {
+                    if let jsonData = try? JSONDecoder().decode(TodosModel.self, from: apiData) {
+                        UserDefaults.standard.set(jsonData.todos, forKey: "todosData")
                     }
                 }
             }.resume()

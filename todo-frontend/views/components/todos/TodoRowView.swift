@@ -27,7 +27,7 @@ struct TodoRowView: View {
             }
             
             VStack {
-                NavigationLink(destination: TodoScreenView()) {
+                NavigationLink(destination: TodoScreenView(todoId: todo.id)) {
                     Image(systemName: "arrowshape.right.circle.fill")
                         .font(.title3)
                 }

@@ -16,7 +16,7 @@ struct TodosScreenView: View {
         NavigationStack {
             VStack {
                 NavigationLink(destination: NewTodoScreen()) {
-                    Text("New Todo")
+                    Text("Add new todo")
                 }
                 .padding(.bottom, 10)
                 
@@ -27,18 +27,12 @@ struct TodosScreenView: View {
             }
             
         }
+        .sheet(isPresented: $newTodoState) {
+            NewTodoScreen()
+        }
         .onAppear() {
             transformData()
         }
-        .sheet(isPresented: $newTodoState) {
-            VStack {
-                Text("Hello World")
-            }
-        }
-    }
-    
-    private func updateNewTodoState() {
-        newTodoState = true;
     }
     
     private func transformData() -> Void {
