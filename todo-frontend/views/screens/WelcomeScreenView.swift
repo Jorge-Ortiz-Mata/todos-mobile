@@ -21,9 +21,9 @@ struct Todo: Identifiable, Codable {
 
 // Define your Swift object structure to match the JSON
 struct TodoModel: Identifiable, Codable {
-    let id: Int
-    let name: String
-    let description: String
+    var id: Int
+    var name: String
+    var description: String
 }
 
 struct WelcomeScreenView: View {

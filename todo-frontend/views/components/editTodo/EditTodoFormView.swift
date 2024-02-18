@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditTodoFormView: View {
-    @State var todo: Todo
+    @State var todo: TodoModel
     @State var nameError: String = ""
     @State var descriptionError: String = ""
     @State var responseOK: Bool = false
@@ -20,6 +20,7 @@ struct EditTodoFormView: View {
                 VStack {
                     
                 }.task {
+                    await getTodos()
                     presentationMode.wrappedValue.dismiss()
                 }
             } else {
@@ -70,6 +71,23 @@ struct EditTodoFormView: View {
         }
     }
     
+    private func getTodos() async {
+        if let apiURL = URL(string: "http://localhost:3000/api/todos") {
+            var request = URLRequest(url: apiURL)
+            request.httpMethod = "GET"
+            
+            request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let apiData = data {
+                    if let jsonData = try? JSONDecoder().decode(TodosModel.self, from: apiData) {
+                        UserDefaults.standard.set(jsonData.todos, forKey: "todosData")
+                    }
+                }
+            }.resume()
+        }
+    }
+    
     private func updateTodo() async {
         nameError = ""
         descriptionError = ""
@@ -114,12 +132,10 @@ struct EditTodoFormView: View {
 
 #Preview {
     EditTodoFormView(
-        todo: Todo(
+        todo: TodoModel(
             id: 1,
             name: "My first todo",
-            description: "Some description about this todo",
-            createdAt: "2024-01-15",
-            updatedAt: "2024-01-18"
+            description: "Some description about this todo"
         )
     )
 }

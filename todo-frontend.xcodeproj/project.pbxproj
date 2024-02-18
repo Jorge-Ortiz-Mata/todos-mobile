@@ -24,7 +24,6 @@
 		CF6173E42B5DB5C60012039A /* NewTodoFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6173E32B5DB5C60012039A /* NewTodoFormView.swift */; };
 		CF6173E62B5DB68E0012039A /* CustomFormLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6173E52B5DB68E0012039A /* CustomFormLabelView.swift */; };
 		CFC3A6222B60D84E009AE99C /* CustomErrorMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC3A6212B60D84E009AE99C /* CustomErrorMessageView.swift */; };
-		CFDF54272B7EBF2F009391B7 /* TodosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDF54262B7EBF2F009391B7 /* TodosModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +45,6 @@
 		CF6173E32B5DB5C60012039A /* NewTodoFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTodoFormView.swift; sourceTree = "<group>"; };
 		CF6173E52B5DB68E0012039A /* CustomFormLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormLabelView.swift; sourceTree = "<group>"; };
 		CFC3A6212B60D84E009AE99C /* CustomErrorMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorMessageView.swift; sourceTree = "<group>"; };
-		CFDF54262B7EBF2F009391B7 /* TodosModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				CF2485E52B56FAFF0047E0BC /* TodoModel.swift */,
-				CFDF54262B7EBF2F009391B7 /* TodosModel.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -250,7 +247,6 @@
 				CF2485DF2B56F9F10047E0BC /* ScreenHeaderView.swift in Sources */,
 				CF2485D82B56F76B0047E0BC /* TodosScreenView.swift in Sources */,
 				CF41A1642B62D2A500FF2A27 /* EditTodoScreenView.swift in Sources */,
-				CFDF54272B7EBF2F009391B7 /* TodosModel.swift in Sources */,
 				CF2485E62B56FAFF0047E0BC /* TodoModel.swift in Sources */,
 				CF3AC63A2B6314850006AF2C /* CustomShowDateView.swift in Sources */,
 				CF6173E12B5DB53C0012039A /* NewTodoScreen.swift in Sources */,

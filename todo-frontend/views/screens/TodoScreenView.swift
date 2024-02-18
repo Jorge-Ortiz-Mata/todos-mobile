@@ -15,44 +15,49 @@ struct TodoScreenView: View {
     @State var isDeleted: Bool = false
     
     var body: some View {
-        VStack {
-            Text(String(isDeleted))
-            if(isLoading) {
-                ProgressView()
-            } else {
-                if(isDeleted) {
-                    Text("Your todo has been deleted successfully")
+        NavigationStack {
+            VStack {
+                if(isLoading) {
+                    ProgressView()
                 } else {
-                    VStack {
-                        HStack {
-                            Text(todo.name)
-                                .font(.title)
-                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Text(todo.description)
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Button {
-                                Task {
-                                    await deleteTodo(todoId: todo.id)
-                                    await getTodos()
+                    if(isDeleted) {
+                        Text("Your todo has been deleted successfully")
+                    } else {
+                        VStack {
+                            HStack {
+                                Text(todo.name)
+                                    .font(.title)
+                                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                Spacer()
+                            }
+                            
+                            HStack {
+                                Text(todo.description)
+                                Spacer()
+                            }
+                            
+                            HStack {
+                                NavigationLink(destination: EditTodoScreenView(todo: todo)) {
+                                    Text("Edit todo")
                                 }
-                            } label: {
-                                Text("Delete todo")
+                                
+                                Button {
+                                    Task {
+                                        await deleteTodo(todoId: todo.id)
+                                        await getTodos()
+                                    }
+                                } label: {
+                                    Text("Delete todo")
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        .onAppear() {
-            Task {
-                await getTodo(todoId: todoId)
+            .onAppear() {
+                Task {
+                    await getTodo(todoId: todoId)
+                }
             }
         }
     }

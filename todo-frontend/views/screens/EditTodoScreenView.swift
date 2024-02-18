@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditTodoScreenView: View {
-    var todo: Todo
+    var todo: TodoModel
     
     var body: some View {
         EditTodoFormView(todo: todo)
@@ -17,12 +17,10 @@ struct EditTodoScreenView: View {
 
 #Preview {
     EditTodoScreenView(
-        todo: Todo(
+        todo: TodoModel(
             id: 1,
             name: "My first todo",
-            description: "Some description about this todo",
-            createdAt: "2024-01-15",
-            updatedAt: "2024-01-18"
+            description: "Some description about this todo"
         )
     )
 }
