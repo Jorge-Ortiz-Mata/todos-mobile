@@ -7,25 +7,6 @@
 
 import SwiftUI
 
-struct TodosModel: Codable {
-    var todos: String
-}
-
-struct Todo: Identifiable, Codable {
-    var id: Int
-    var name: String
-    var description: String
-    var createdAt: String
-    var updatedAt: String
-}
-
-// Define your Swift object structure to match the JSON
-struct TodoModel: Identifiable, Codable {
-    var id: Int
-    var name: String
-    var description: String
-}
-
 struct WelcomeScreenView: View {
     @AppStorage("todosData") var todosData: String = ""
     @State var isLoading: Bool = true

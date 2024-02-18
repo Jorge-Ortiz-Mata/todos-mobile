@@ -7,6 +7,16 @@
 
 import Foundation
 
+struct TodosModel: Codable {
+    var todos: String
+}
+
+struct TodoModel: Identifiable, Codable {
+    var id: Int
+    var name: String
+    var description: String
+}
+
 struct NewTodo: Codable {
     var name: String
     var description: String

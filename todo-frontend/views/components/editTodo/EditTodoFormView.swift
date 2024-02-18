@@ -119,7 +119,7 @@ struct EditTodoFormView: View {
                         responseOK = true
                         
                         if let apiData = data {
-                            if let response = try? JSONDecoder().decode(Todo.self, from: apiData) { 
+                            if let response = try? JSONDecoder().decode(TodoModel.self, from: apiData) { 
                                 print(response)
                             }
                         }
