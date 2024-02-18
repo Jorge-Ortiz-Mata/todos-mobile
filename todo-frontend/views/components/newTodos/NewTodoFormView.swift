@@ -88,12 +88,13 @@ struct NewTodoFormView: View {
         }
     }
     
+
+    
     func dateToString(date: Date) -> Void {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         todo.date = formatter.string(from: date)
     }
-    
     
     func saveTodo () async {
         nameError = ""

@@ -69,15 +69,19 @@ struct TodoScreenView: View {
     }
     
     func readbleDate(date: String) -> String {
-        let dateSplitted = date.components(separatedBy: "-")
-        let months: [String] = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        if(todo.date.count > 0) {
+            let dateSplitted = date.components(separatedBy: "-")
+            let months: [String] = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+            
+            guard let month = Int(dateSplitted[1]) else { return "Error" }
+            let monthName = months[month]
+            
+            let dateReadble = "\(dateSplitted[2]) \(monthName), \(dateSplitted[0])"
+            
+            return dateReadble
+        }
         
-        guard let month = Int(dateSplitted[1]) else { return "Error" }
-        let monthName = months[month]
-        
-        let dateReadble = "\(dateSplitted[2]) \(monthName), \(dateSplitted[0])"
-        
-        return dateReadble
+        return ""
     }
     
     private func getTodo(todoId: Int) async {
