@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct TodoScreenView: View {
-    var todoId: Int
     @AppStorage("todosData") var todosData: String = ""
     @State var isLoading: Bool = true
     @State var todo: TodoModel = TodoModel(id: 0, name: "", description: "")
     @State var isDeleted: Bool = false
+    var todoService = TodoService()
+    var todoId: Int
     
     var body: some View {
         NavigationStack {
@@ -44,7 +45,7 @@ struct TodoScreenView: View {
                                 Button {
                                     Task {
                                         await deleteTodo(todoId: todo.id)
-                                        await getTodos()
+                                        await todoService.getTodos()
                                     }
                                 } label: {
                                     Text("Delete todo")
@@ -66,7 +67,6 @@ struct TodoScreenView: View {
         if let apiURL = URL(string: "http://localhost:3000/api/todos/\(todoId)") {
             var request = URLRequest(url: apiURL)
             request.httpMethod = "GET"
-            
             request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
             
             URLSession.shared.dataTask(with: request) { data, response, error in
@@ -84,7 +84,6 @@ struct TodoScreenView: View {
         if let apiURL = URL(string: "http://localhost:3000/api/todos/\(todoId)") {
             var request = URLRequest(url: apiURL)
             request.httpMethod = "DELETE"
-            
             request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
             
             URLSession.shared.dataTask(with: request) { data, response, error in
@@ -94,31 +93,8 @@ struct TodoScreenView: View {
             }.resume()
         }
     }
-    
-    private func getTodos() async {
-        if let apiURL = URL(string: "http://localhost:3000/api/todos") {
-            var request = URLRequest(url: apiURL)
-            request.httpMethod = "GET"
-            
-            request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if let apiData = data {
-                    if let jsonData = try? JSONDecoder().decode(TodosModel.self, from: apiData) {
-                        isLoading = false
-                        UserDefaults.standard.set(jsonData.todos, forKey: "todosData")
-                    }
-                }
-            }.resume()
-        }
-    }
 }
 
 #Preview {
     TodoScreenView(todoId: 1)
 }
-
-
-//await network.deleteTodo(id: id)
-//await network.getTodos()
-//self.presentationMode.wrappedValue.dismiss()

@@ -23,6 +23,7 @@
 		CF6173E12B5DB53C0012039A /* NewTodoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6173E02B5DB53C0012039A /* NewTodoScreen.swift */; };
 		CF6173E42B5DB5C60012039A /* NewTodoFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6173E32B5DB5C60012039A /* NewTodoFormView.swift */; };
 		CF6173E62B5DB68E0012039A /* CustomFormLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6173E52B5DB68E0012039A /* CustomFormLabelView.swift */; };
+		CF84EEFD2B818B1200EB4FC8 /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84EEFC2B818B1200EB4FC8 /* TodoService.swift */; };
 		CFC3A6222B60D84E009AE99C /* CustomErrorMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC3A6212B60D84E009AE99C /* CustomErrorMessageView.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		CF6173E02B5DB53C0012039A /* NewTodoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTodoScreen.swift; sourceTree = "<group>"; };
 		CF6173E32B5DB5C60012039A /* NewTodoFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTodoFormView.swift; sourceTree = "<group>"; };
 		CF6173E52B5DB68E0012039A /* CustomFormLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormLabelView.swift; sourceTree = "<group>"; };
+		CF84EEFC2B818B1200EB4FC8 /* TodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoService.swift; sourceTree = "<group>"; };
 		CFC3A6212B60D84E009AE99C /* CustomErrorMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorMessageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				CF2485C82B56F3A00047E0BC /* todo_frontendApp.swift */,
+				CF84EEFB2B818B0000EB4FC8 /* services */,
 				CF2485E42B56FAF00047E0BC /* models */,
 				CF2485D92B56F7DB0047E0BC /* views */,
 				CF2485CC2B56F3A10047E0BC /* Assets.xcassets */,
@@ -170,6 +173,14 @@
 			path = newTodos;
 			sourceTree = "<group>";
 		};
+		CF84EEFB2B818B0000EB4FC8 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				CF84EEFC2B818B1200EB4FC8 /* TodoService.swift */,
+			);
+			path = services;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -243,6 +254,7 @@
 				CF6173E42B5DB5C60012039A /* NewTodoFormView.swift in Sources */,
 				CF2485DD2B56F8E70047E0BC /* UsernameView.swift in Sources */,
 				CF1BEDC32B5734EC00119579 /* TodoScreenView.swift in Sources */,
+				CF84EEFD2B818B1200EB4FC8 /* TodoService.swift in Sources */,
 				CFC3A6222B60D84E009AE99C /* CustomErrorMessageView.swift in Sources */,
 				CF2485DF2B56F9F10047E0BC /* ScreenHeaderView.swift in Sources */,
 				CF2485D82B56F76B0047E0BC /* TodosScreenView.swift in Sources */,

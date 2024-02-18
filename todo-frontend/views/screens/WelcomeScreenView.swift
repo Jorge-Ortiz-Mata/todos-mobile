@@ -9,8 +9,9 @@ import SwiftUI
 
 struct WelcomeScreenView: View {
     @AppStorage("todosData") var todosData: String = ""
-    @State var isLoading: Bool = true
+    @AppStorage("welcomeLoading") var welcomeLoading: Bool = true
     @State var todos: [TodoModel] = []
+    var todoService = TodoService()
     
     var body: some View {
         VStack {
@@ -27,7 +28,7 @@ struct WelcomeScreenView: View {
                     }
                     Spacer()
                     
-                    if(isLoading) {
+                    if(welcomeLoading) {
                         ProgressView()
                     } else {
                         NavigationLink(destination: TodosScreenView()) {
@@ -38,28 +39,14 @@ struct WelcomeScreenView: View {
             }
             .onAppear(){
                 Task {
-                    await getTodos()
+                    await fetchTodos()
                 }
             }
         }
     }
     
-    private func getTodos() async {
-        if let apiURL = URL(string: "http://localhost:3000/api/todos") {
-            var request = URLRequest(url: apiURL)
-            request.httpMethod = "GET"
-            
-            request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if let apiData = data {
-                    if let jsonData = try? JSONDecoder().decode(TodosModel.self, from: apiData) {
-                        isLoading = false
-                        UserDefaults.standard.set(jsonData.todos, forKey: "todosData")
-                    }
-                }
-            }.resume()
-        }
+    private func fetchTodos() async {
+        await todoService.getTodos()
     }
 }
 
