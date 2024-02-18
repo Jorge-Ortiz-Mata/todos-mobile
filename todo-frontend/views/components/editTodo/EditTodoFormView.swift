@@ -101,10 +101,6 @@ struct EditTodoFormView: View {
                         }
                     } else if response.statusCode == 200 {
                         responseOK = true
-                        
-                        if let apiData = data {
-                            if let response = try? JSONDecoder().decode(TodoModel.self, from: apiData) {  }
-                        }
                     }
                 }
             }.resume()
@@ -117,7 +113,8 @@ struct EditTodoFormView: View {
         todo: TodoModel(
             id: 1,
             name: "My first todo",
-            description: "Some description about this todo"
+            description: "Some description about this todo",
+            date: "2024-01-01"
         )
     )
 }

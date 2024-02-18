@@ -24,6 +24,11 @@ struct TodoRowView: View {
                     Text(todo.description)
                     Spacer()
                 }
+                
+//                HStack {
+//                    Text(String(todo.date))
+//                    Spacer()
+//                }
             }
             
             VStack {
@@ -57,7 +62,8 @@ struct TodoRowView: View {
         todo: TodoModel(
             id: 1,
             name: "My first todo",
-            description: "Some description about this todo"
+            description: "Some description about this todo",
+            date: "2024-01-01"
         )
     )
 }

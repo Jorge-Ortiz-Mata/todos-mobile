@@ -20,7 +20,8 @@ struct EditTodoScreenView: View {
         todo: TodoModel(
             id: 1,
             name: "My first todo",
-            description: "Some description about this todo"
+            description: "Some description about this todo",
+            date: "2024-01-01"
         )
     )
 }

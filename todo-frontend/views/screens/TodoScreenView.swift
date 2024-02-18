@@ -10,7 +10,7 @@ import SwiftUI
 struct TodoScreenView: View {
     @AppStorage("todosData") var todosData: String = ""
     @State var isLoading: Bool = true
-    @State var todo: TodoModel = TodoModel(id: 0, name: "", description: "")
+    @State var todo: TodoModel = TodoModel(id: 0, name: "", description: "", date: "")
     @State var isDeleted: Bool = false
     var todoService = TodoService()
     var todoId: Int
@@ -38,6 +38,11 @@ struct TodoScreenView: View {
                             }
                             
                             HStack {
+                                Text(readbleDate(date: todo.date))
+                                Spacer()
+                            }
+                            
+                            HStack {
                                 NavigationLink(destination: EditTodoScreenView(todo: todo)) {
                                     Text("Edit todo")
                                 }
@@ -61,6 +66,18 @@ struct TodoScreenView: View {
                 }
             }
         }
+    }
+    
+    func readbleDate(date: String) -> String {
+        let dateSplitted = date.components(separatedBy: "-")
+        let months: [String] = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        
+        guard let month = Int(dateSplitted[1]) else { return "Error" }
+        let monthName = months[month]
+        
+        let dateReadble = "\(dateSplitted[2]) \(monthName), \(dateSplitted[0])"
+        
+        return dateReadble
     }
     
     private func getTodo(todoId: Int) async {

@@ -10,9 +10,11 @@ import SwiftUI
 struct NewTodoFormView: View {
     @AppStorage("todosData") var todosData: String = ""
     @Environment(\.presentationMode) var presentationMode
-    @State var todo: NewTodo = NewTodo(name: "", description: "")
+    @State var todo: NewTodo = NewTodo(name: "", description: "", date: "")
+    @State var todoDate: Date = Date()
     @State var nameError: String = ""
     @State var descriptionError: String = ""
+    @State var dateError: String = ""
     @State var responseOK: Bool = false
     var todoService = TodoService()
     
@@ -36,6 +38,20 @@ struct NewTodoFormView: View {
                         .disableAutocorrection(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                     if nameError.count > 0 {
                         CustomErrorMessageView(message: nameError)
+                    }
+                    
+                }
+                .textFieldStyle(.roundedBorder)
+                .padding(.bottom, 20)
+                
+                VStack {
+                    DatePicker(
+                        "Fecha",
+                        selection: $todoDate,
+                        displayedComponents: [.date]
+                    )
+                    if dateError.count > 0 {
+                        CustomErrorMessageView(message: dateError)
                     }
                     
                 }
@@ -72,9 +88,18 @@ struct NewTodoFormView: View {
         }
     }
     
+    func dateToString(date: Date) -> Void {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        todo.date = formatter.string(from: date)
+    }
+    
+    
     func saveTodo () async {
         nameError = ""
         descriptionError = ""
+        dateError = ""
+        dateToString(date: todoDate)
         
         if let apiURL = URL(string: "http://localhost:3000/api/todos") {
             var request = URLRequest(url: apiURL)
@@ -97,6 +122,9 @@ struct NewTodoFormView: View {
                                 }
                                 if let descriptionErrors = response.description {
                                     descriptionError = "La descripcion \(descriptionErrors[0])"
+                                }
+                                if let dateErrors = response.date {
+                                    dateError = "La fecha \(dateErrors[0])"
                                 }
 
                             }
