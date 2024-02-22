@@ -12,6 +12,9 @@ struct CustomFormLabelView: View {
     
     var body: some View {
         Text(label)
+            .font(.title3)
+            .fontWeight(.semibold)
+            .foregroundStyle(.black)
     }
 }
 

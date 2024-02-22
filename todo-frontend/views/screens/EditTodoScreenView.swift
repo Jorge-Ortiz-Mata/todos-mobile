@@ -11,7 +11,12 @@ struct EditTodoScreenView: View {
     var todo: TodoModel
     
     var body: some View {
-        EditTodoFormView(todo: todo)
+        VStack {
+            ScreenHeaderView(title: "Editar actividad")
+            EditTodoFormView(todo: todo)
+        }
+        .padding()
+        .background(.white)
     }
 }
 

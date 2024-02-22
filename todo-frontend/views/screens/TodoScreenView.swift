@@ -11,6 +11,7 @@ struct TodoScreenView: View {
     @AppStorage("todosData") var todosData: String = ""
     @State var isLoading: Bool = true
     @State var todo: TodoModel = TodoModel(id: 0, name: "", description: "", date: "")
+    @State var showAlert: Bool = false
     @State var isDeleted: Bool = false
     var todoService = TodoService()
     var todoId: Int
@@ -22,44 +23,63 @@ struct TodoScreenView: View {
                     ProgressView()
                 } else {
                     if(isDeleted) {
-                        Text("Your todo has been deleted successfully")
+                        VStack {
+                            Text("Actividad eliminada")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .padding(.bottom, 10)
+                            Text("La actividad ha sido eliminada correctamente.")
+                                .foregroundColor(.black)
+                        }.task {
+                            await todoService.getTodos()
+                        }
                     } else {
                         VStack {
-                            HStack {
-                                Text(todo.name)
-                                    .font(.title)
-                                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                Spacer()
-                            }
+                            ScreenHeaderView(title: "Actividad")
+                            TodoInfoView(todo: todo)
                             
-                            HStack {
-                                Text(todo.description)
-                                Spacer()
-                            }
+                            Spacer()
                             
-                            HStack {
-                                Text(readbleDate(date: todo.date))
-                                Spacer()
-                            }
-                            
-                            HStack {
+                            VStack {
                                 NavigationLink(destination: EditTodoScreenView(todo: todo)) {
-                                    Text("Edit todo")
+                                    Text("Editar")
+                                        .frame(maxWidth: .infinity)
+                                        .padding()
+                                        .background(.blue)
+                                        .cornerRadius(5)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                    
                                 }
+                                .padding(.bottom, 5)
                                 
                                 Button {
-                                    Task {
-                                        await deleteTodo(todoId: todo.id)
-                                        await todoService.getTodos()
-                                    }
+                                    showAlert = true
                                 } label: {
-                                    Text("Delete todo")
+                                    Text("Eliminar")
+                                        .frame(maxWidth: .infinity)
+                                        .padding()
+                                        .background(.red)
+                                        .cornerRadius(5)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                }
+                                .alert("¿Estas seguro de eliminar esta actividad?", isPresented: $showAlert) {
+                                    Button("Cancelar", role: .cancel) { }
+                                    Button("Aceptar") {
+                                        Task {
+                                            await deleteTodo(todoId: todo.id)
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.white)
             .onAppear() {
                 Task {
                     await getTodo(todoId: todoId)
@@ -68,8 +88,8 @@ struct TodoScreenView: View {
         }
     }
     
-    func readbleDate(date: String) -> String {
-        if(todo.date.count > 0) {
+    private func readbleDate(date: String) -> String {
+        if(date.count > 0) {
             let dateSplitted = date.components(separatedBy: "-")
             let months: [String] = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
             
@@ -85,7 +105,7 @@ struct TodoScreenView: View {
     }
     
     private func getTodo(todoId: Int) async {
-        if let apiURL = URL(string: "http://localhost:3000/api/todos/\(todoId)") {
+        if let apiURL = URL(string: "https://todos-backend-staging-436jws4ksq-uc.a.run.app/api/v1/todos/\(todoId)") {
             var request = URLRequest(url: apiURL)
             request.httpMethod = "GET"
             request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
@@ -102,7 +122,7 @@ struct TodoScreenView: View {
     }
     
     private func deleteTodo(todoId: Int) async {
-        if let apiURL = URL(string: "http://localhost:3000/api/todos/\(todoId)") {
+        if let apiURL = URL(string: "https://todos-backend-staging-436jws4ksq-uc.a.run.app/api/v1/todos/\(todoId)") {
             var request = URLRequest(url: apiURL)
             request.httpMethod = "DELETE"
             request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
@@ -117,5 +137,5 @@ struct TodoScreenView: View {
 }
 
 #Preview {
-    TodoScreenView(todoId: 1)
+    TodoScreenView(todoId: 3)
 }

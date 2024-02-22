@@ -22,33 +22,45 @@ struct NewTodoFormView: View {
         VStack {
             if(responseOK) {
                 VStack {
-                    Text("Tu nueva actividad ha sido creada.")
+                    MessageOK()
+                    Button {
+                        resetForm()
+                    } label: {
+                        Text("Añadir actividad")
+                            .padding(.top, 5)
+                    }
                 }.task {
                     await todoService.getTodos()
                 }
             } else {
                 VStack {
+                    ScreenHeaderView(title: "Agregar actividad")
                     HStack {
-                        CustomFormLabelView(label: "Nombre")
+                        CustomFormLabelView(label: "Nombre de la actividad:")
                         Spacer()
                     }
-                    TextField("e.g. Go to the supermarket", text: $todo.name)
-                        .border(.gray)
-                        .border(Color(red: 0.8, green: 0.8, blue: 0.8))
-                        .disableAutocorrection(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                    TextField("e.g. Hacer el pago de la tarjeta", text: $todo.name)
+                        .padding(10)
+                        .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                        .cornerRadius(10)
+                        .disableAutocorrection(true)
+                        .foregroundStyle(.black)
                     if nameError.count > 0 {
                         CustomErrorMessageView(message: nameError)
                     }
                     
                 }
-                .textFieldStyle(.roundedBorder)
                 .padding(.bottom, 20)
                 
-                VStack {
+                HStack {
+                    CustomFormLabelView(label: "Fecha:")
+                    Spacer()
+                    
                     DatePicker(
-                        "Fecha",
+                        "",
                         selection: $todoDate,
                         displayedComponents: [.date]
+                        
                     )
                     if dateError.count > 0 {
                         CustomErrorMessageView(message: dateError)
@@ -60,35 +72,50 @@ struct NewTodoFormView: View {
                 
                 VStack {
                     HStack {
-                        CustomFormLabelView(label: "Descripcion")
+                        CustomFormLabelView(label: "Descripcion (opcional):")
                         Spacer()
                     }
                     TextEditor(text: $todo.description)
-                        .border(Color(red: 0.8, green: 0.8, blue: 0.8))
-                        .frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
+                        .frame(height: 100)
+                        .padding(2)
+                        .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                        .cornerRadius(10)
+                        .disableAutocorrection(true)
+                        .scrollContentBackground(.hidden) // <- Hide it
+                        .background(.white)
+                        .foregroundColor(.black)
                     if descriptionError.count > 0 {
                         CustomErrorMessageView(message: descriptionError)
                     }
                 }
-                .textFieldStyle(.roundedBorder)
                 .padding(.bottom, 20)
                 
+                Spacer()
+                
                 VStack {
-                    Button("Save") {
+                    Button("Guardar actividad") {
                         Task {
                             await saveTodo()
                         }
                     }
+                    .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(red: 0, green: 0.5, blue: 0.5))
-                    .cornerRadius(10)
+                    .background(.blue)
+                    .fontWeight(.medium)
+                    .cornerRadius(5)
                     .foregroundColor(.white)
                 }
             }
         }
     }
     
-
+    func resetForm() -> Void {
+        responseOK = false
+        todo.name = ""
+        todo.description = ""
+        todo.date = ""
+        todoDate = Date()
+    }
     
     func dateToString(date: Date) -> Void {
         let formatter = DateFormatter()
@@ -102,7 +129,7 @@ struct NewTodoFormView: View {
         dateError = ""
         dateToString(date: todoDate)
         
-        if let apiURL = URL(string: "http://localhost:3000/api/todos") {
+        if let apiURL = URL(string: "https://todos-backend-staging-436jws4ksq-uc.a.run.app/api/v1/todos") {
             var request = URLRequest(url: apiURL)
             let jsonData = try? JSONEncoder().encode(todo)
             request.httpMethod = "POST"

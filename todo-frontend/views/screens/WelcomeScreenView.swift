@@ -14,34 +14,41 @@ struct WelcomeScreenView: View {
     var todoService = TodoService()
     
     var body: some View {
-        VStack {
+        NavigationStack {
             VStack {
-                NavigationStack {
-                    Spacer()
-                    VStack {
-                        Image("ux-ui")
-                            .resizable()
-                        .frame(width: 300, height: 300)
-                        Text("Todo App")
-                            .bold()
-                            .font(.title)
-                    }
-                    Spacer()
-                    
-                    if(welcomeLoading) {
-                        ProgressView()
-                    } else {
-                        NavigationLink(destination: TodosScreenView()) {
-                            Text("Let's start")
+                WelcomeTitle()
+                Spacer()
+                AppInfo()
+                Spacer()
+                
+                if(welcomeLoading) {
+                    ProgressView()
+                } else {
+                    NavigationLink(destination: TabNavigation().navigationBarBackButtonHidden(true)) {
+                        VStack {
+                            Text("Comenzar")
                         }
+                        .foregroundColor(.white)
+                        .padding()
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .frame(maxWidth: .infinity)
+                        .background(.blue)
+                        .cornerRadius(10)
                     }
                 }
             }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                LinearGradient(gradient: Gradient(colors: [.blue, .white, .white]), startPoint: .top, endPoint: .bottom)
+            )
             .onAppear(){
                 Task {
                     await fetchTodos()
                 }
             }
+
         }
     }
     

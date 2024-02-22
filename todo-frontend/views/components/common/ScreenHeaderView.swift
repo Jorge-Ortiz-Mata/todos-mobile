@@ -11,12 +11,12 @@ struct ScreenHeaderView: View {
     var title: String
     
     var body: some View {
-        HStack {
-            Text(title)
-                .bold()
-                .font(.largeTitle)
-            Spacer()
-        }
+        Text(title)
+            .font(.title)
+            .fontWeight(.bold)
+            .padding(.bottom, 20)
+            .foregroundStyle(.black)
+        
     }
 }
 

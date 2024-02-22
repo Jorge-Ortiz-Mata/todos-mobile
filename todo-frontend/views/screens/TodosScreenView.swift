@@ -9,26 +9,36 @@ import SwiftUI
 
 struct TodosScreenView: View {
     @AppStorage("todosData") var todosData: String = ""
-    @State var newTodoState: Bool = false
     @State var todos: [TodoModel] = []
+    
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     
     var body: some View {
         NavigationStack {
-            VStack {
-                NavigationLink(destination: NewTodoScreen()) {
-                    Text("Add new todo")
+            ScrollView {
+                UsernameView()
+                
+                HStack {
+                    Image(systemName: "text.badge.checkmark")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    Text("Actividades de hoy")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    Spacer()
                 }
-                .padding(.bottom, 10)
-                
-                
-                ForEach(todos) { todo in
-                    TodoRowView(todo: todo)
+                .padding(.top, 10)
+                Divider()
+                    .padding(.bottom, 10)
+        
+                LazyVGrid(columns: columns) {
+                    ForEach(todos) { todo in
+                        TodoCardView(todo: todo)
+                    }
                 }
             }
-            
-        }
-        .sheet(isPresented: $newTodoState) {
-            NewTodoScreen()
+            .padding()
+            .background(.white)
         }
         .onAppear() {
             transformData()

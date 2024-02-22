@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct NewTodoScreen: View {
+struct NewTodoScreenView: View {
     var body: some View {
         VStack {
-            Text("Create todo")
-                .font(.title)
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
             NewTodoFormView()
         }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.white)
     }
 }
 
 #Preview {
-    NewTodoScreen()
+    NewTodoScreenView()
 }

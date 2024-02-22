@@ -15,7 +15,7 @@ class TodoService: ObservableObject {
     func getTodos() async {
         UserDefaults.standard.set(true, forKey: "welcomeLoading")
         
-        if let apiURL = URL(string: "http://localhost:3000/api/todos") {
+        if let apiURL = URL(string: "https://todos-backend-staging-436jws4ksq-uc.a.run.app/api/v1/todos") {
             var request = URLRequest(url: apiURL)
             request.httpMethod = "GET"
             
