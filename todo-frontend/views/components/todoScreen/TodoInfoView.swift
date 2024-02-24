@@ -14,14 +14,14 @@ struct TodoInfoView: View {
         VStack {
             HStack {
                 Text("Nombre de la actividad:")
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                 Spacer()
             }
             HStack {
                 Text(todo.name)
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                 Spacer()
             }
         }
@@ -30,16 +30,16 @@ struct TodoInfoView: View {
         VStack {
             HStack {
                 Image(systemName: "calendar")
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                 Text("Fecha:")
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                 Spacer()
             }
             HStack {
                 Text(readbleDate(date: todo.date))
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
 
                 Spacer()
             }
@@ -49,12 +49,12 @@ struct TodoInfoView: View {
         VStack {
             HStack {
                 Text("Nombre de la actividad:")
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                 Spacer()
             }
             HStack {
                 Text(todo.description)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .font(.title3)
                     .fontWeight(.bold)
 

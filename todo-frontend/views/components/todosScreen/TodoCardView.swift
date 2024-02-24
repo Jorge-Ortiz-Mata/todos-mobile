@@ -16,32 +16,32 @@ struct TodoCardView: View {
                 HStack {
                     Text(todo.name)
                         .fontWeight(.bold)
-                        .font(.body)
-                        .foregroundColor(.black)
+                        .font(.title2)
+                        .foregroundColor(.white)
+                    Spacer()
                 }
-                .padding(.bottom, 5)
+
                 
                 HStack {
                     Image(systemName: "calendar")
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .fontWeight(.light)
                         .font(.footnote)
                     Text(readbleDate(date: todo.date))
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .fontWeight(.light)
                         .font(.footnote)
+                    Spacer()
                 }
             }
-            .frame(height: 100)
             .frame(maxWidth: .infinity)
             .padding()
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color(red: 0.4627, green: 0.8392, blue: 1.0), lineWidth: 1)
+                    .stroke(.orange, lineWidth: 1)
             )
         }
-        .padding(10)
-        
+        .padding(.bottom, 10)
     }
     
     private func readbleDate(date: String) -> String {

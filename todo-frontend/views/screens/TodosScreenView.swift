@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct TodosScreenView: View {
-    @AppStorage("todosData") var todosData: String = ""
+    @AppStorage("todayTodosData") var todayTodosData: String = ""
     @State var todos: [TodoModel] = []
-    
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     
     var body: some View {
         NavigationStack {
@@ -19,26 +17,22 @@ struct TodosScreenView: View {
                 UsernameView()
                 
                 HStack {
-                    Image(systemName: "text.badge.checkmark")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    Text("Actividades de hoy")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    Text("El dia de hoy tienes \(todos.count) actividades por completar")
+                        .foregroundColor(.white)
+                        .font(.title3)
                     Spacer()
                 }
-                .padding(.top, 10)
-                Divider()
-                    .padding(.bottom, 10)
-        
-                LazyVGrid(columns: columns) {
-                    ForEach(todos) { todo in
-                        TodoCardView(todo: todo)
-                    }
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, 30)
+            
+                ForEach(todos) { todo in
+                    TodoCardView(todo: todo)
                 }
             }
-            .padding()
-            .background(.white)
+            .padding(20)
+            .background(
+                LinearGradient(gradient: Gradient(colors: [orangeColor, .black, .black]), startPoint: .top, endPoint: .bottom)
+            )
         }
         .onAppear() {
             transformData()
@@ -46,7 +40,7 @@ struct TodosScreenView: View {
     }
     
     private func transformData() -> Void {
-        let jsonFormattedData = todosData.data(using: .utf8)!
+        let jsonFormattedData = todayTodosData.data(using: .utf8)!
     
         do {
             let objects = try JSONDecoder().decode([TodoModel].self, from: jsonFormattedData)

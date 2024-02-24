@@ -16,7 +16,9 @@ struct EditTodoScreenView: View {
             EditTodoFormView(todo: todo)
         }
         .padding()
-        .background(.white)
+        .background(
+            LinearGradient(gradient: Gradient(colors: [orangeColor, .black, .black]), startPoint: .top, endPoint: .bottom)
+        )
     }
 }
 

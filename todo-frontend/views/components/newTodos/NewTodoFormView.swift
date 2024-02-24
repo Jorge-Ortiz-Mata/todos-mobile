@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NewTodoFormView: View {
-    @AppStorage("todosData") var todosData: String = ""
+    @AppStorage("todayTodosData") var todayTodosData: String = ""
     @Environment(\.presentationMode) var presentationMode
     @State var todo: NewTodo = NewTodo(name: "", description: "", date: "")
     @State var todoDate: Date = Date()
@@ -30,7 +30,7 @@ struct NewTodoFormView: View {
                             .padding(.top, 5)
                     }
                 }.task {
-                    await todoService.getTodos()
+                    await todoService.getTodayTodos()
                 }
             } else {
                 VStack {
@@ -41,10 +41,10 @@ struct NewTodoFormView: View {
                     }
                     TextField("e.g. Hacer el pago de la tarjeta", text: $todo.name)
                         .padding(10)
-                        .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                        .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                         .cornerRadius(10)
                         .disableAutocorrection(true)
-                        .foregroundStyle(.black)
+                        .foregroundColor(.white)
                     if nameError.count > 0 {
                         CustomErrorMessageView(message: nameError)
                     }
@@ -60,8 +60,8 @@ struct NewTodoFormView: View {
                         "",
                         selection: $todoDate,
                         displayedComponents: [.date]
-                        
                     )
+                    .colorScheme(.dark)
                     if dateError.count > 0 {
                         CustomErrorMessageView(message: dateError)
                     }
@@ -78,12 +78,11 @@ struct NewTodoFormView: View {
                     TextEditor(text: $todo.description)
                         .frame(height: 100)
                         .padding(2)
-                        .background(Color(red: 0.95, green: 0.95, blue: 0.95))
-                        .cornerRadius(10)
+                        .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                         .disableAutocorrection(true)
                         .scrollContentBackground(.hidden) // <- Hide it
                         .background(.white)
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                     if descriptionError.count > 0 {
                         CustomErrorMessageView(message: descriptionError)
                     }
@@ -93,17 +92,21 @@ struct NewTodoFormView: View {
                 Spacer()
                 
                 VStack {
-                    Button("Guardar actividad") {
+                    Button {
                         Task {
                             await saveTodo()
                         }
+                    } label: {
+                        HStack {
+                            Text("Guardar")
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.blue)
+                        .fontWeight(.medium)
+                        .cornerRadius(5)
+                        .foregroundColor(.white)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.blue)
-                    .fontWeight(.medium)
-                    .cornerRadius(5)
-                    .foregroundColor(.white)
                 }
             }
         }
@@ -129,7 +132,7 @@ struct NewTodoFormView: View {
         dateError = ""
         dateToString(date: todoDate)
         
-        if let apiURL = URL(string: "https://todos-backend-staging-436jws4ksq-uc.a.run.app/api/v1/todos") {
+        if let apiURL = URL(string: "\(apiURL)/todos") {
             var request = URLRequest(url: apiURL)
             let jsonData = try? JSONEncoder().encode(todo)
             request.httpMethod = "POST"

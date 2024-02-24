@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EditTodoFormView: View {
+    @AppStorage("dateCalendarSelected") var dateCalendarSelected: String = ""
     @State var todo: TodoModel
     @State var nameError: String = ""
     @State var descriptionError: String = ""
@@ -23,7 +24,8 @@ struct EditTodoFormView: View {
                 VStack {
                     
                 }.task {
-                    await todoService.getTodos()
+                    await todoService.getTodayTodos()
+                    await todoService.getTodosByDate(dateSelected: dateCalendarSelected)
                     presentationMode.wrappedValue.dismiss()
                 }
             } else {
@@ -34,10 +36,10 @@ struct EditTodoFormView: View {
                     }
                     TextField("e.g. Go to the supermarket", text: $todo.name)
                         .padding(10)
-                        .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                        .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                         .cornerRadius(10)
                         .disableAutocorrection(true)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.white)
                     if nameError.count > 0 {
                         CustomErrorMessageView(message: nameError)
                     }
@@ -53,7 +55,7 @@ struct EditTodoFormView: View {
                         selection: $todoDate,
                         displayedComponents: [.date]
                     )
-                    .foregroundStyle(.black)
+                    .colorScheme(.dark)
                     if dateError.count > 0 {
                         CustomErrorMessageView(message: dateError)
                     }
@@ -69,12 +71,11 @@ struct EditTodoFormView: View {
                     TextEditor(text: $todo.description)
                         .frame(height: 100)
                         .padding(2)
-                        .background(Color(red: 0.95, green: 0.95, blue: 0.95))
-                        .cornerRadius(10)
+                        .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                         .disableAutocorrection(true)
                         .scrollContentBackground(.hidden) // <- Hide it
                         .background(.white)
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                     if descriptionError.count > 0 {
                         CustomErrorMessageView(message: descriptionError)
                     }
@@ -84,20 +85,22 @@ struct EditTodoFormView: View {
                 Spacer()
                 
                 VStack {
-                    Button("Guardar actividad") {
+                    Button {
                         Task {
                             await updateTodo()
                         }
+                    } label: {
+                        HStack {
+                            Text("Guardar")
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.blue)
+                        .fontWeight(.medium)
+                        .cornerRadius(5)
+                        .foregroundColor(.white)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.blue)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .cornerRadius(5)
-                    .foregroundColor(.white)
                 }
-                
             }
         }.onAppear() {
             stringToDate(stringDate: todo.date)
@@ -136,7 +139,7 @@ struct EditTodoFormView: View {
         dateError = ""
         dateToString(date: todoDate)
         
-        if let apiURL = URL(string: "https://todos-backend-staging-436jws4ksq-uc.a.run.app/api/v1/todos/\(todo.id)") {
+        if let apiURL = URL(string: "\(apiURL)/todos/\(todo.id)") {
             var request = URLRequest(url: apiURL)
             let jsonData = try? JSONEncoder().encode(todo)
             request.httpMethod = "PATCH"

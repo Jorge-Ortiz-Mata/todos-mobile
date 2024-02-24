@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct TodoScreenView: View {
-    @AppStorage("todosData") var todosData: String = ""
+    @AppStorage("todayTodosData") var todayTodosData: String = ""
+    @AppStorage("dateCalendarSelected") var dateCalendarSelected: String = ""
     @State var isLoading: Bool = true
     @State var todo: TodoModel = TodoModel(id: 0, name: "", description: "", date: "")
     @State var showAlert: Bool = false
@@ -31,7 +32,8 @@ struct TodoScreenView: View {
                             Text("La actividad ha sido eliminada correctamente.")
                                 .foregroundColor(.black)
                         }.task {
-                            await todoService.getTodos()
+                            await todoService.getTodayTodos()
+                            await todoService.getTodosByDate(dateSelected: dateCalendarSelected)
                         }
                     } else {
                         VStack {
@@ -79,7 +81,9 @@ struct TodoScreenView: View {
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(.white)
+            .background(
+                LinearGradient(gradient: Gradient(colors: [orangeColor, .black, .black]), startPoint: .top, endPoint: .bottom)
+            )
             .onAppear() {
                 Task {
                     await getTodo(todoId: todoId)
@@ -105,7 +109,7 @@ struct TodoScreenView: View {
     }
     
     private func getTodo(todoId: Int) async {
-        if let apiURL = URL(string: "https://todos-backend-staging-436jws4ksq-uc.a.run.app/api/v1/todos/\(todoId)") {
+        if let apiURL = URL(string: "\(apiURL)/todos/\(todoId)") {
             var request = URLRequest(url: apiURL)
             request.httpMethod = "GET"
             request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
@@ -122,7 +126,7 @@ struct TodoScreenView: View {
     }
     
     private func deleteTodo(todoId: Int) async {
-        if let apiURL = URL(string: "https://todos-backend-staging-436jws4ksq-uc.a.run.app/api/v1/todos/\(todoId)") {
+        if let apiURL = URL(string: "\(apiURL)/todos/\(todoId)") {
             var request = URLRequest(url: apiURL)
             request.httpMethod = "DELETE"
             request.addValue("camel", forHTTPHeaderField: "Key-Inflection")
@@ -137,5 +141,5 @@ struct TodoScreenView: View {
 }
 
 #Preview {
-    TodoScreenView(todoId: 3)
+    TodoScreenView(todoId: 1)
 }

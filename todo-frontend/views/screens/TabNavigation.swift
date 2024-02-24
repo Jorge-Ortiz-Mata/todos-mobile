@@ -10,15 +10,22 @@ import SwiftUI
 struct TabNavigation: View {
     var body: some View {
         TabView {
-            TodosScreenView()
-                .tabItem {
-                    Label("Menu", systemImage: "list.dash")
+            Group {
+                TodosScreenView()
+                    .tabItem {
+                        Label("Menu", systemImage: "list.dash")
                 }
-            
-            NewTodoScreenView()
-                .tabItem {
-                    Label("Añadir", systemImage: "plus")
-                }
+                
+                NewTodoScreenView()
+                    .tabItem {
+                        Label("Añadir", systemImage: "plus")
+                    }
+                
+                CalendarScreenView()
+                    .tabItem {
+                        Label("Calendario", systemImage: "calendar")
+                    }
+            }
         }
     }
 }

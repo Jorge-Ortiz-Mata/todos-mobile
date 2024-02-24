@@ -14,9 +14,9 @@ struct UsernameView: View {
                 Text("Hola Jorge!")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.white)
                 Image(systemName: "hand.wave.fill")
-                    .font(.title2)
+                    .font(.title)
                     .foregroundColor(.yellow)
                 Spacer()
             }
@@ -24,11 +24,11 @@ struct UsernameView: View {
             HStack {
                 Text(currentDate())
                     .fontWeight(.light)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.white)
                 Spacer()
             }
         }
-        .padding(.bottom, 20)
+        .padding(.vertical, 20)
     }
     
     private func currentDate() -> String {

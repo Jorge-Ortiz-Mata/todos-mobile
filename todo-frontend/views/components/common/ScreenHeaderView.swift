@@ -14,9 +14,8 @@ struct ScreenHeaderView: View {
         Text(title)
             .font(.title)
             .fontWeight(.bold)
-            .padding(.bottom, 20)
-            .foregroundStyle(.black)
-        
+            .padding(.vertical, 20)
+            .foregroundColor(.white)
     }
 }
 

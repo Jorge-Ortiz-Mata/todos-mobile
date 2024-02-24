@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct todo_frontendApp: App {
-    @AppStorage("todosData") var todosData: String = ""
+    @AppStorage("todayTodosData") var todayTodosData: String = ""
     
     var body: some Scene {
         WindowGroup {

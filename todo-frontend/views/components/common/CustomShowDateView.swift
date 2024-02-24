@@ -11,7 +11,7 @@ struct CustomShowDateView: View {
     
     var body: some View {
         Text(formatTodayDate())
-            .foregroundStyle(.black)
+            .foregroundColor(.white)
     }
     
     private func formatTodayDate() -> String {

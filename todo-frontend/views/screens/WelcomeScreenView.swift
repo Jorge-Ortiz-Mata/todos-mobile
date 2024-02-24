@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WelcomeScreenView: View {
-    @AppStorage("todosData") var todosData: String = ""
+    @AppStorage("todayTodosData") var todayTodosData: String = ""
     @AppStorage("welcomeLoading") var welcomeLoading: Bool = true
     @State var todos: [TodoModel] = []
     var todoService = TodoService()
@@ -16,7 +16,6 @@ struct WelcomeScreenView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                WelcomeTitle()
                 Spacer()
                 AppInfo()
                 Spacer()
@@ -25,23 +24,24 @@ struct WelcomeScreenView: View {
                     ProgressView()
                 } else {
                     NavigationLink(destination: TabNavigation().navigationBarBackButtonHidden(true)) {
-                        VStack {
+                        HStack {
                             Text("Comenzar")
+                            Image(systemName: "arrow.right")
                         }
-                        .foregroundColor(.white)
-                        .padding()
+                        .padding(.horizontal, 50)
+                        .padding(.vertical, 10)
+                        .foregroundColor(.black)
                         .font(.title3)
                         .fontWeight(.medium)
-                        .frame(maxWidth: .infinity)
-                        .background(.blue)
-                        .cornerRadius(10)
+                        .background(.orange)
+                        .cornerRadius(50)
                     }
                 }
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
-                LinearGradient(gradient: Gradient(colors: [.blue, .white, .white]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [orangeColor, .black, .black]), startPoint: .top, endPoint: .bottom)
             )
             .onAppear(){
                 Task {
@@ -52,8 +52,31 @@ struct WelcomeScreenView: View {
         }
     }
     
+    private func currentDate() -> String {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let formattedDate = dateFormatter.string(from: date)
+        
+        if(formattedDate.count > 0) {
+            let dateSplitted = formattedDate.components(separatedBy: "-")
+            let months: [String] = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+            
+            guard let month = Int(dateSplitted[1]) else { return "Error" }
+            let monthName = months[month]
+            
+            let dateReadble = "\(dateSplitted[2]) \(monthName), \(dateSplitted[0])"
+            
+            return dateReadble
+        }
+        
+        return ""
+    }
+    
     private func fetchTodos() async {
-        await todoService.getTodos()
+        await todoService.getTodayTodos()
+        await todoService.getTodosByDate(dateSelected: currentDate())
+        UserDefaults.standard.set(currentDate(), forKey: "dateCalendarSelected")
     }
 }
 

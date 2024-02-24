@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct NewTodoScreenView: View {
     var body: some View {
@@ -14,7 +15,9 @@ struct NewTodoScreenView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.white)
+        .background(
+            LinearGradient(gradient: Gradient(colors: [orangeColor, .black, .black]), startPoint: .top, endPoint: .bottom)
+        )
     }
 }
 
